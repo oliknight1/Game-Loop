@@ -28,10 +28,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setAdapter() {
         RecyclerAdapter adapter = new RecyclerAdapter(gameList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+
     }
 
     private void generateTestData() {
