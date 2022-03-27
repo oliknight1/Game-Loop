@@ -1,17 +1,18 @@
 package com.example.gameloop.models;
 
 public class Game {
-    private String title;
+    private String id;
+    private String name;
 
     public Game(String title) {
-        this.title = title;
+        this.name = title;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 }

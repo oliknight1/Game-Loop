@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gameloop.models.Game;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
-    private ArrayList<Game> gameList;
+    private List<Game> gameList;
 
-    public RecyclerAdapter( ArrayList<Game> gameList) {
+    public RecyclerAdapter( List<Game> gameList) {
         this.gameList = gameList;
     }
 
@@ -37,7 +37,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String title = gameList.get(position).getTitle();
+        String title = gameList.get(position).getName();
         holder.gameTitle.setText(title);
     }
 
