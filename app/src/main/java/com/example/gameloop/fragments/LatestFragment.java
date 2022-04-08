@@ -2,20 +2,17 @@ package com.example.gameloop.fragments;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.gameloop.MainActivity;
 import com.example.gameloop.R;
 import com.example.gameloop.RAWGApi;
 import com.example.gameloop.RecyclerAdapter;
@@ -49,7 +46,7 @@ public class LatestFragment extends Fragment {
 
     private void setAdapter( List<Game> gameList, View view) {
         RecyclerAdapter adapter = new RecyclerAdapter(gameList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
