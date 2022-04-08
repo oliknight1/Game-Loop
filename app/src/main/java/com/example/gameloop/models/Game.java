@@ -4,8 +4,8 @@ public class Game {
     private String id;
     private String name;
 
-    public Game(String title) {
-        this.name = title;
+    public Game(String name) {
+        this.name = name;
     }
 
     public String getName() {

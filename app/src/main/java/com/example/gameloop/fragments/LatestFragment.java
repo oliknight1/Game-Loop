@@ -2,65 +2,90 @@ package com.example.gameloop.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gameloop.MainActivity;
 import com.example.gameloop.R;
+import com.example.gameloop.RAWGApi;
+import com.example.gameloop.RecyclerAdapter;
+import com.example.gameloop.models.ApiResponse;
+import com.example.gameloop.models.Game;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LatestFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.Arrays;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class LatestFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private RecyclerView recyclerView;
     public LatestFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LatestFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LatestFragment newInstance(String param1, String param2) {
-        LatestFragment fragment = new LatestFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        setHasOptionsMenu(true);
+        getActivity().setTitle("Latest");
+
+
+
+    }
+
+    private void setAdapter( List<Game> gameList, View view) {
+        RecyclerAdapter adapter = new RecyclerAdapter(gameList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_latest, container, false);
+        View view = inflater.inflate(R.layout.fragment_latest, container, false);
+        recyclerView = view.findViewById(R.id.latestRecyclerView);
+        String baseUrl = "https://api.rawg.io/api/";
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RAWGApi rawgApi = retrofit.create(RAWGApi.class);
+
+        Call<ApiResponse> call = rawgApi.getAllGames();
+
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if( !response.isSuccessful() ) {
+                    // Handle Error
+                    return;
+                }
+                List<Game> games = Arrays.asList(response.body().getResults());
+                setAdapter(games, view);
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                Log.e("FAIL", "Failed: " + t.getMessage());
+            }
+        });
+        return view;
     }
 }

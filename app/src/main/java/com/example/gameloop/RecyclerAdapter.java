@@ -20,11 +20,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView gameTitle;
+        private TextView gameName;
 
         public MyViewHolder(final View view) {
             super(view);
-            gameTitle = view.findViewById(R.id.gameTitle);
+            gameName = view.findViewById(R.id.gameName);
         }
     }
 
@@ -37,8 +37,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String title = gameList.get(position).getName();
-        holder.gameTitle.setText(title);
+        String name = gameList.get(position).getName();
+        holder.gameName.setText(name);
     }
 
     @Override
