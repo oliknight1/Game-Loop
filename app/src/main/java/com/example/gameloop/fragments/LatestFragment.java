@@ -2,6 +2,7 @@ package com.example.gameloop.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,7 +19,11 @@ import com.example.gameloop.RAWGApi;
 import com.example.gameloop.RecyclerAdapter;
 import com.example.gameloop.models.ApiResponse;
 import com.example.gameloop.models.Game;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,9 +44,6 @@ public class LatestFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().setTitle("Latest");
-
-
-
     }
 
     private void setAdapter( List<Game> gameList, View view) {
@@ -52,16 +54,28 @@ public class LatestFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
     }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView = view.findViewById(R.id.latestRecyclerView);
 
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_latest, container, false);
         recyclerView = view.findViewById(R.id.latestRecyclerView);
+
+        // Initiate recyclerview with empty adapter before data fetch
+        setAdapter(new ArrayList<Game>(), view);
+
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
         String baseUrl = "https://api.rawg.io/api/";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         RAWGApi rawgApi = retrofit.create(RAWGApi.class);
 

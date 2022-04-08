@@ -3,11 +3,13 @@ package com.example.gameloop;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.gameloop.models.Game;
 
 import java.util.List;
@@ -21,10 +23,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView gameName;
+        private ImageView gameImg;
 
         public MyViewHolder(final View view) {
             super(view);
             gameName = view.findViewById(R.id.gameName);
+            gameImg = view.findViewById(R.id.gameImg);
         }
     }
 
@@ -37,8 +41,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String name = gameList.get(position).getName();
+        Game game = gameList.get(position);
+        String name = game.getName();
         holder.gameName.setText(name);
+
+        String imgSrc = game.getBackgroundImage();
+        Glide.with(holder.itemView).load(imgSrc).into(holder.gameImg);
+
     }
 
     @Override
