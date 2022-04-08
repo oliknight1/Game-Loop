@@ -9,6 +9,7 @@
     android:layout_gravity="center"
     app:cardCornerRadius="15dp"
     app:cardElevation="10dp"
+    android:layout_marginBottom="@dimen/card_gap"
     >
 
     <LinearLayout
