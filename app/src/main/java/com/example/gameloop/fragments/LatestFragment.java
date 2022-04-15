@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.gameloop.BuildConfig;
 import com.example.gameloop.R;
 import com.example.gameloop.RAWGApi;
 import com.example.gameloop.RecyclerAdapter;
@@ -23,6 +24,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -72,6 +74,7 @@ public class LatestFragment extends Fragment {
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
+
         String baseUrl = "https://api.rawg.io/api/";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -79,7 +82,10 @@ public class LatestFragment extends Fragment {
                 .build();
         RAWGApi rawgApi = retrofit.create(RAWGApi.class);
 
-        Call<ApiResponse> call = rawgApi.getAllGames();
+        LocalDate startDate = LocalDate.now().minusMonths(3);
+        LocalDate endDate = LocalDate.now();
+        String latestGamesUrl = "games?dates=" + startDate + ',' + endDate + "&ordering=-added&key=" + BuildConfig.API_KEY;
+        Call<ApiResponse> call = rawgApi.getLatestGames(baseUrl + latestGamesUrl);
 
         call.enqueue(new Callback<ApiResponse>() {
             @Override
