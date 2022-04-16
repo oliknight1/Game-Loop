@@ -20,6 +20,7 @@ import com.example.gameloop.RAWGApi;
 import com.example.gameloop.RecyclerAdapter;
 import com.example.gameloop.models.ApiResponse;
 import com.example.gameloop.models.Game;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,6 +38,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LatestFragment extends Fragment {
     private RecyclerView recyclerView;
+    private ShimmerFrameLayout shimmerFrameLayout;
     public LatestFragment() {
         // Required empty public constructor
     }
@@ -68,6 +70,9 @@ public class LatestFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_latest, container, false);
         recyclerView = view.findViewById(R.id.latestRecyclerView);
 
+        shimmerFrameLayout = view.findViewById(R.id.latestShimmerLayout);
+        shimmerFrameLayout.startShimmer();
+
         // Initiate recyclerview with empty adapter before data fetch
         setAdapter(new ArrayList<Game>(), view);
 
@@ -90,6 +95,9 @@ public class LatestFragment extends Fragment {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
                 if( !response.isSuccessful() ) {
                     // Handle Error
                     return;
