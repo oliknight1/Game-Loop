@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.237" />
+        <entry key="app/src/main/res/drawable/nav_rounded.xml" value="0.587" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_all_genres.xml" value="0.5953125" />
+        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.7789637400458257" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5953125" />
+        <entry key="app/src/main/res/layout/fragment_latest.xml" value="0.5953125" />
+        <entry key="app/src/main/res/layout/fragment_popular.xml" value="0.5953125" />
+        <entry key="app/src/main/res/layout/fragment_second.xml" value="0.7184637383247415" />
+        <entry key="app/src/main/res/layout/game_card.xml" value="0.5264623955431755" />
+        <entry key="app/src/main/res/layout/game_card_shimmer.xml" value="0.6421875" />
+        <entry key="app/src/main/res/layout/nav_bar.xml" value="0.20018115942028986" />
+        <entry key="app/src/main/res/layout/nav_rounded.xml" value="0.5953125" />
+        <entry key="app/src/main/res/menu/nav.xml" value="0.23072916666666668" />
+        <entry key="app/src/main/res/menu/nav_background_rounded.xml" value="0.5953125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.5953125" />
+      </ProjectState>
+    </option>
+  </component>
+</project>
