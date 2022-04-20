@@ -1,8 +1,12 @@
 package com.example.gameloop.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Game {
     private String id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("background_image")
     private String backgroundImage;
 
     public String getBackgroundImage() {

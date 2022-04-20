@@ -2,22 +2,25 @@ package com.example.gameloop.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.gameloop.BuildConfig;
 import com.example.gameloop.R;
 import com.example.gameloop.RAWGApi;
 import com.example.gameloop.RecyclerAdapter;
+import com.example.gameloop.controllers.GameController;
+import com.example.gameloop.controllers.GameControllerCallback;
 import com.example.gameloop.models.ApiResponse;
 import com.example.gameloop.models.Game;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -39,6 +42,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LatestFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
+    Call<ApiResponse> call;
     public LatestFragment() {
         // Required empty public constructor
     }
@@ -50,14 +54,6 @@ public class LatestFragment extends Fragment {
         getActivity().setTitle("Latest");
     }
 
-    private void setAdapter( List<Game> gameList, View view) {
-        RecyclerAdapter adapter = new RecyclerAdapter(gameList);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
@@ -73,9 +69,6 @@ public class LatestFragment extends Fragment {
         shimmerFrameLayout = view.findViewById(R.id.latestShimmerLayout);
         shimmerFrameLayout.startShimmer();
 
-        // Initiate recyclerview with empty adapter before data fetch
-        setAdapter(new ArrayList<Game>(), view);
-
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
@@ -90,25 +83,26 @@ public class LatestFragment extends Fragment {
         LocalDate startDate = LocalDate.now().minusMonths(3);
         LocalDate endDate = LocalDate.now();
         String latestGamesUrl = "games?dates=" + startDate + ',' + endDate + "&ordering=-added&key=" + BuildConfig.API_KEY;
-        Call<ApiResponse> call = rawgApi.getLatestGames(baseUrl + latestGamesUrl);
 
-        call.enqueue(new Callback<ApiResponse>() {
+        RecyclerAdapter adapter = new RecyclerAdapter(new ArrayList<>());
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
+        GameController gameController = new GameController();
+        gameController.getLatest(new GameControllerCallback() {
             @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+            public void onSuccess(List<Game> result) {
+                adapter.setGameList(result);
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
-                if( !response.isSuccessful() ) {
-                    // Handle Error
-                    return;
-                }
-                List<Game> games = Arrays.asList(response.body().getResults());
-                setAdapter(games, view);
             }
 
             @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Log.e("FAIL", "Failed: " + t.getMessage());
+            public void onFailure(Throwable t) {
+                Log.e("API_ERROR", t.getMessage());
             }
         });
         return view;

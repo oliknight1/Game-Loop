@@ -16,6 +16,7 @@ import java.util.List;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
     private List<Game> gameList;
+    private int maxPages = 5;
 
     public RecyclerAdapter( List<Game> gameList) {
         this.gameList = gameList;
@@ -53,5 +54,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public int getItemCount() {
         return gameList.size();
+    }
+
+    public void setGameList(List<Game> list) {
+        this.gameList = list;
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Game> newList) {
+        int lastIndex = gameList.size() - 1;
+        gameList.addAll(newList);
+        notifyItemRangeInserted(lastIndex, newList.size());
+    }
+
+    public int getMaxPages() {
+        return  maxPages;
     }
 }
