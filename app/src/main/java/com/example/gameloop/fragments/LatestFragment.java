@@ -42,7 +42,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LatestFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
-    Call<ApiResponse> call;
     public LatestFragment() {
         // Required empty public constructor
     }
@@ -80,10 +79,6 @@ public class LatestFragment extends Fragment {
                 .build();
         RAWGApi rawgApi = retrofit.create(RAWGApi.class);
 
-        LocalDate startDate = LocalDate.now().minusMonths(3);
-        LocalDate endDate = LocalDate.now();
-        String latestGamesUrl = "games?dates=" + startDate + ',' + endDate + "&ordering=-added&key=" + BuildConfig.API_KEY;
-
         RecyclerAdapter adapter = new RecyclerAdapter(new ArrayList<>());
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
@@ -105,6 +100,30 @@ public class LatestFragment extends Fragment {
                 Log.e("API_ERROR", t.getMessage());
             }
         });
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                loadMoreItems();
+
+            }
+            private void loadMoreItems() {
+                gameController.getLatest(new GameControllerCallback() {
+                    @Override
+                    public void onSuccess(List<Game> result) {
+                        adapter.addAll(result);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+
+            }
+        });
+
         return view;
     }
 }
