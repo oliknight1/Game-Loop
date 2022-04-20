@@ -42,8 +42,8 @@ public class GameController {
     public void getLatest(GameControllerCallback callback) {
         LocalDate startDate = LocalDate.now().minusMonths(3);
         LocalDate endDate = LocalDate.now();
-        String latestGamesUrl = "games?dates=" + startDate + ',' + endDate + "&ordering=-added&key=" + BuildConfig.API_KEY;
-        call = rawgApi.getLatestGames(baseUrl + latestGamesUrl);
+        String dateRange = startDate.toString() + "," + endDate.toString();
+        call = rawgApi.getLatestGames(dateRange, "-added");
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
