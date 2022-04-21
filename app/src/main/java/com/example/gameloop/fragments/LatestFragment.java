@@ -42,6 +42,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LatestFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
+
+    int currentPage = 1;
     public LatestFragment() {
         // Required empty public constructor
     }
@@ -68,17 +70,6 @@ public class LatestFragment extends Fragment {
         shimmerFrameLayout = view.findViewById(R.id.latestShimmerLayout);
         shimmerFrameLayout.startShimmer();
 
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
-
-        String baseUrl = "https://api.rawg.io/api/";
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-        RAWGApi rawgApi = retrofit.create(RAWGApi.class);
-
         RecyclerAdapter adapter = new RecyclerAdapter(new ArrayList<>());
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
@@ -86,7 +77,7 @@ public class LatestFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         GameController gameController = new GameController();
-        gameController.getLatest(new GameControllerCallback() {
+        gameController.getLatest( currentPage, new GameControllerCallback() {
             @Override
             public void onSuccess(List<Game> result) {
                 adapter.setGameList(result);
@@ -105,11 +96,14 @@ public class LatestFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                loadMoreItems();
+
+                boolean loadMore = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition() == adapter.getItemCount() -1;
+                if (loadMore) loadMoreItems();
 
             }
             private void loadMoreItems() {
-                gameController.getLatest(new GameControllerCallback() {
+                currentPage++;
+                gameController.getLatest(currentPage,new GameControllerCallback() {
                     @Override
                     public void onSuccess(List<Game> result) {
                         adapter.addAll(result);
@@ -120,7 +114,6 @@ public class LatestFragment extends Fragment {
 
                     }
                 });
-
             }
         });
 

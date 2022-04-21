@@ -10,5 +10,5 @@ public interface RAWGApi {
     Call<ApiResponse> getAllGames();
 
     @GET("games?&key=" + BuildConfig.API_KEY)
-    Call<ApiResponse> getLatestGames(@Query("dates") String dateRange, @Query("ordering") String ordering);
+    Call<ApiResponse> getLatestGames(@Query("dates") String dateRange, @Query("ordering") String ordering, @Query("page") int page);
 }

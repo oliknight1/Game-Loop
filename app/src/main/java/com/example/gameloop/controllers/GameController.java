@@ -43,11 +43,11 @@ public class GameController {
         rawgApi = retrofit.create(RAWGApi.class);
     }
 
-    public void getLatest(GameControllerCallback callback) {
+    public void getLatest(int page,GameControllerCallback callback) {
         LocalDate startDate = LocalDate.now().minusMonths(3);
         LocalDate endDate = LocalDate.now();
         String dateRange = startDate.toString() + "," + endDate.toString();
-        call = rawgApi.getLatestGames(dateRange, "-added");
+        call = rawgApi.getLatestGames(dateRange, "-added", page);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
