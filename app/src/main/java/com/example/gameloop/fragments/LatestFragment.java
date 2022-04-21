@@ -1,6 +1,10 @@
 package com.example.gameloop.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,42 +13,22 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-
-import com.example.gameloop.BuildConfig;
 import com.example.gameloop.R;
-import com.example.gameloop.RAWGApi;
 import com.example.gameloop.RecyclerAdapter;
 import com.example.gameloop.controllers.GameController;
 import com.example.gameloop.controllers.GameControllerCallback;
-import com.example.gameloop.models.ApiResponse;
 import com.example.gameloop.models.Game;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LatestFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
 
     int currentPage = 1;
-    final int MAX_PAGE = 5;
+    final int MAX_ITEMS= 100;
     public LatestFragment() {
         // Required empty public constructor
     }
@@ -78,7 +62,7 @@ public class LatestFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         GameController gameController = new GameController();
-        gameController.getLatest( currentPage, new GameControllerCallback() {
+        gameController.getLatest( currentPage,new GameControllerCallback() {
             @Override
             public void onSuccess(List<Game> result) {
                 adapter.setGameList(result);
@@ -92,13 +76,12 @@ public class LatestFragment extends Fragment {
                 Log.e("API_ERROR", t.getMessage());
             }
         });
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                boolean loadMore = (((GridLayoutManager) layoutManager).findLastVisibleItemPosition() == adapter.getItemCount() -1) && currentPage <= MAX_PAGE;
+                boolean loadMore = (((GridLayoutManager) layoutManager).findLastVisibleItemPosition() == adapter.getItemCount() -1) && adapter.getItemCount() <= MAX_ITEMS;
                 if (loadMore) loadMoreItems();
 
             }
