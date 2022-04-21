@@ -44,6 +44,7 @@ public class LatestFragment extends Fragment {
     private ShimmerFrameLayout shimmerFrameLayout;
 
     int currentPage = 1;
+    final int MAX_PAGE = 5;
     public LatestFragment() {
         // Required empty public constructor
     }
@@ -97,7 +98,7 @@ public class LatestFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                boolean loadMore = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition() == adapter.getItemCount() -1;
+                boolean loadMore = (((GridLayoutManager) layoutManager).findLastVisibleItemPosition() == adapter.getItemCount() -1) && currentPage <= MAX_PAGE;
                 if (loadMore) loadMoreItems();
 
             }
