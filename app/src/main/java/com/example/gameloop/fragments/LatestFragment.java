@@ -44,6 +44,7 @@ public class LatestFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
         recyclerView = view.findViewById(R.id.latestRecyclerView);
+        recyclerView.setItemAnimator(null);
 
     }
     @Override
