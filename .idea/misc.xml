@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_all_genres.xml" value="0.5953125" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.7789637400458257" />
+        <entry key="app/src/main/res/layout/fragment_game.xml" value="0.37335359675785207" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5953125" />
         <entry key="app/src/main/res/layout/fragment_latest.xml" value="0.5953125" />
         <entry key="app/src/main/res/layout/fragment_popular.xml" value="0.5953125" />
