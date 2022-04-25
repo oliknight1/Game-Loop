@@ -28,7 +28,7 @@ public class LatestFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
 
-    int currentPage = 1;
+    int currentPage;
     final int MAX_ITEMS= 100;
     public LatestFragment() {
         // Required empty public constructor
@@ -54,6 +54,7 @@ public class LatestFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_latest, container, false);
         recyclerView = view.findViewById(R.id.latestRecyclerView);
 
+        currentPage = 1;
         shimmerFrameLayout = view.findViewById(R.id.latestShimmerLayout);
         shimmerFrameLayout.startShimmer();
 

@@ -48,7 +48,6 @@ public class GameController {
         LocalDate endDate = LocalDate.now();
         String dateRange = startDate.toString() + "," + endDate.toString();
         call = rawgApi.getLatestGames(dateRange, "-added", page, 8);
-        Log.i("URL", call.request().url().toString());
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -58,7 +57,6 @@ public class GameController {
                 Type gameListType = new TypeToken<List<Game>>() {}.getType();
                 List<Game> gameList = new Gson().fromJson(response.body().getResults(), gameListType );
                 callback.onSuccess(gameList);
-                Log.i("URL", Integer.toString(gameList.size()));
             }
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
