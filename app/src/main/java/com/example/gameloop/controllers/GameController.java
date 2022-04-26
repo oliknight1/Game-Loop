@@ -70,8 +70,6 @@ public class GameController {
                 if( !response.isSuccessful() ) {
                     return;
                 }
-                Type responseType = new TypeToken<Game>() {}.getType();
-//                Game game = new Gson().fromJson(String.valueOf(response.body()),responseType);
                 Game game = response.body();
                 callback.onSuccess(game);
             }

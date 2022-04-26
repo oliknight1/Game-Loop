@@ -54,22 +54,9 @@ public class GameFragment extends Fragment {
         actionBar.setDisplayHomeAsUpEnabled(true);
         fragmentActivity.getOnBackPressedDispatcher();
 
-        GameController controller = new GameController();
 
         if (getArguments() != null) {
             id = getArguments().getInt(ARG_ID);
-            controller.getGameData(id, new SingleGameCallback() {
-                @Override
-                public void onSuccess(Game result) {
-                    game = result;
-                    fragmentActivity.setTitle(game.getName());
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-
-                }
-            });
         }
     }
 
@@ -86,9 +73,22 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_game, container, false);
-        setHasOptionsMenu(true);
 
-        TextView text = view.findViewById(R.id.test);
+        GameController controller = new GameController();
+        controller.getGameData(id, new SingleGameCallback() {
+            @Override
+            public void onSuccess(Game result) {
+                game = result;
+                fragmentActivity.setTitle(game.getName());
+                TextView text = view.findViewById(R.id.description);
+                text.setText(game.getDescription());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
 
 
         return view;
