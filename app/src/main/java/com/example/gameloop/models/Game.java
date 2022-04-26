@@ -3,7 +3,7 @@ package com.example.gameloop.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Game {
-    private String id;
+    private int id;
     private String name;
     @SerializedName("background_image")
     private String backgroundImage;
@@ -27,7 +27,7 @@ public class Game {
         this.name = name;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 }

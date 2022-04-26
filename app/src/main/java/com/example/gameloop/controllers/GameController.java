@@ -3,7 +3,6 @@ package com.example.gameloop.controllers;
 
 import android.util.Log;
 
-import com.example.gameloop.BuildConfig;
 import com.example.gameloop.RAWGApi;
 import com.example.gameloop.models.ApiResponse;
 import com.example.gameloop.models.Game;
@@ -14,7 +13,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -24,7 +22,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GameController {
-    private Call<ApiResponse> call;
     private Gson gson;
     String baseUrl;
     Retrofit retrofit;
@@ -43,11 +40,11 @@ public class GameController {
         rawgApi = retrofit.create(RAWGApi.class);
     }
 
-    public void getLatest(int page, GameControllerCallback callback) {
+    public void getLatest(int page, GameListCallback callback) {
         LocalDate startDate = LocalDate.now().minusMonths(3);
         LocalDate endDate = LocalDate.now();
         String dateRange = startDate.toString() + "," + endDate.toString();
-        call = rawgApi.getLatestGames(dateRange, "-added", page, 8);
+        Call<ApiResponse> call = rawgApi.getLatestGames(dateRange, "-added", page, 8);
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -63,6 +60,27 @@ public class GameController {
                 callback.onFailure(t);
             }
         });
+    }
+
+    public void getGameData(int id, SingleGameCallback callback) {
+        Call<Game> call =rawgApi.getData(id);
+        call.enqueue(new Callback<Game>() {
+            @Override
+            public void onResponse(Call<Game> call, Response<Game> response) {
+                if( !response.isSuccessful() ) {
+                    return;
+                }
+                Type responseType = new TypeToken<Game>() {}.getType();
+//                Game game = new Gson().fromJson(String.valueOf(response.body()),responseType);
+                Game game = response.body();
+                callback.onSuccess(game);
+            }
+            @Override
+            public void onFailure(Call<Game> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+
     }
 
 }

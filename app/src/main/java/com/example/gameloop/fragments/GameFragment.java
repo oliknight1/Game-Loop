@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.util.Log;
@@ -17,35 +18,58 @@ import android.widget.TextView;
 import android.widget.Toolbar;
 
 import com.example.gameloop.R;
+import com.example.gameloop.controllers.GameController;
+import com.example.gameloop.controllers.SingleGameCallback;
+import com.example.gameloop.models.Game;
 
 public class GameFragment extends Fragment {
     private static final String ARG_ID = "argId";
+    FragmentActivity fragmentActivity;
 
-    private String id;
+    private int id;
+    private Game game;
 
     public GameFragment() {
         // Required empty public constructor
     }
 
     // TODO: Rename and change types and number of parameters
-    public static GameFragment newInstance(String id) {
+    public static GameFragment newInstance(int id) {
         GameFragment fragment = new GameFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ID, id);
+        args.putInt(ARG_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        fragmentActivity = getActivity();
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        // Remove title first
+        fragmentActivity.setTitle("");
 
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
-        getActivity().getOnBackPressedDispatcher();
+        fragmentActivity.getOnBackPressedDispatcher();
+
+        GameController controller = new GameController();
+
         if (getArguments() != null) {
-            id = getArguments().getString(ARG_ID);
+            id = getArguments().getInt(ARG_ID);
+            controller.getGameData(id, new SingleGameCallback() {
+                @Override
+                public void onSuccess(Game result) {
+                    game = result;
+                    fragmentActivity.setTitle(game.getName());
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
         }
     }
 
@@ -66,7 +90,6 @@ public class GameFragment extends Fragment {
 
         TextView text = view.findViewById(R.id.test);
 
-        text.setText(id);
 
         return view;
     }

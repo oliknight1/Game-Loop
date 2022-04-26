@@ -1,8 +1,11 @@
 package com.example.gameloop;
 
 import com.example.gameloop.models.ApiResponse;
+import com.example.gameloop.models.Game;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RAWGApi {
@@ -15,5 +18,10 @@ public interface RAWGApi {
             @Query("ordering") String ordering,
             @Query("page") int page,
             @Query("page_size") int pageSize
+    );
+
+    @GET("games/{id}?key=" + BuildConfig.API_KEY)
+    Call<Game> getData(
+            @Path("id") int id
     );
 }

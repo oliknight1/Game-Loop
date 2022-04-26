@@ -4,7 +4,7 @@ import com.example.gameloop.models.Game;
 
 import java.util.List;
 
-public interface GameControllerCallback {
+public interface GameListCallback {
 
     void onSuccess(List<Game> result);
 

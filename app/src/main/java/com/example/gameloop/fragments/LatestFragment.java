@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gameloop.R;
 import com.example.gameloop.RecyclerAdapter;
 import com.example.gameloop.controllers.GameController;
-import com.example.gameloop.controllers.GameControllerCallback;
+import com.example.gameloop.controllers.GameListCallback;
 import com.example.gameloop.models.Game;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
@@ -65,7 +64,7 @@ public class LatestFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         GameController gameController = new GameController();
-        gameController.getLatest( currentPage,new GameControllerCallback() {
+        gameController.getLatest( currentPage,new GameListCallback() {
             @Override
             public void onSuccess(List<Game> result) {
                 adapter.setGameList(result);
@@ -90,7 +89,7 @@ public class LatestFragment extends Fragment {
             }
             private void loadMoreItems() {
                 currentPage++;
-                gameController.getLatest(currentPage,new GameControllerCallback() {
+                gameController.getLatest(currentPage,new GameListCallback() {
                     @Override
                     public void onSuccess(List<Game> result) {
                         adapter.addAll(result);
