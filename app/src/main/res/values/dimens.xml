@@ -3,5 +3,7 @@
     <dimen name="card_margin">10dp</dimen>
     <dimen name="card_gap">20dp</dimen>
     <dimen name="list_gap">20dp</dimen>
+    <dimen name="lg_font">24sp</dimen>
+    <dimen name="md_font">20sp</dimen>
 
 </resources>

@@ -10,13 +10,9 @@ public class Game {
     private String name;
     @SerializedName("background_image")
     private String backgroundImage;
-    @SerializedName("description")
     private String description;
-
-    public String getBackgroundImage() {
-        return backgroundImage;
-    }
-
+    private String metacritic;
+    private String released;
 
     public Game(int id, String name, String imgSrc, String description) {
         this.id = id;
@@ -40,4 +36,19 @@ public class Game {
     public Spanned getDescription() {
         return Html.fromHtml(description,Html.FROM_HTML_MODE_COMPACT);
     }
+
+    public String getBackgroundImage() {
+        return backgroundImage;
+    }
+
+    public String getMetacritic() {
+        return metacritic;
+    }
+
+    public String getReleased() {
+        return released;
+    }
+
+
+
 }

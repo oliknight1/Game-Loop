@@ -2,21 +2,20 @@ package com.example.gameloop.fragments;
 
 import android.os.Bundle;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
+import com.bumptech.glide.Glide;
 import com.example.gameloop.R;
 import com.example.gameloop.controllers.GameController;
 import com.example.gameloop.controllers.SingleGameCallback;
@@ -27,7 +26,10 @@ public class GameFragment extends Fragment {
     FragmentActivity fragmentActivity;
 
     private int id;
-    private Game game;
+    ImageView gameImg;
+    TextView description;
+    TextView releaseDate;
+    TextView metacritic;
 
     public GameFragment() {
         // Required empty public constructor
@@ -74,14 +76,24 @@ public class GameFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 
+        gameImg = view.findViewById(R.id.gameImg);
+
         GameController controller = new GameController();
         controller.getGameData(id, new SingleGameCallback() {
             @Override
             public void onSuccess(Game result) {
-                game = result;
-                fragmentActivity.setTitle(game.getName());
-                TextView text = view.findViewById(R.id.description);
-                text.setText(game.getDescription());
+                fragmentActivity.setTitle(result.getName());
+
+                description = view.findViewById(R.id.description);
+                description.setText(result.getDescription());
+
+                Glide.with(view).load(result.getBackgroundImage()).into(gameImg);
+
+                releaseDate = view.findViewById(R.id.release_date);
+                releaseDate.setText("Release date: " + result.getReleased());
+
+                metacritic = view.findViewById(R.id.metacritic);
+                metacritic.setText(result.getMetacritic());
             }
 
             @Override
