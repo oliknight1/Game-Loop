@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../../layout/custom_preview.xml" value="0.5338461538461539" />
+        <entry key="app/src/main/res/drawable/hollow_square.xml" value="0.17" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.237" />
         <entry key="app/src/main/res/drawable/nav_rounded.xml" value="0.587" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
@@ -16,6 +17,7 @@
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.7184637383247415" />
         <entry key="app/src/main/res/layout/game_card.xml" value="0.5264623955431755" />
         <entry key="app/src/main/res/layout/game_card_shimmer.xml" value="0.6421875" />
+        <entry key="app/src/main/res/layout/metacritic.xml" value="2.0989700982152755" />
         <entry key="app/src/main/res/layout/nav_bar.xml" value="0.20018115942028986" />
         <entry key="app/src/main/res/layout/nav_rounded.xml" value="0.5953125" />
         <entry key="app/src/main/res/menu/nav.xml" value="0.23072916666666668" />
