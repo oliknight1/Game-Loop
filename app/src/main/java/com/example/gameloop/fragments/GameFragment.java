@@ -1,5 +1,8 @@
 package com.example.gameloop.fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -94,6 +97,18 @@ public class GameFragment extends Fragment {
 
                 metacritic = view.findViewById(R.id.metacritic);
                 metacritic.setText(result.getMetacritic());
+                GradientDrawable metacriticBox = (GradientDrawable) metacritic.getBackground();
+                int metacriticInt = Integer.parseInt(result.getMetacritic());
+
+                // Change border colour based on the score
+                if (metacriticInt < 50 ) {
+                    metacriticBox.setStroke(3,Color.RED);
+                } else if (metacriticInt >= 50 && metacriticInt <75) {
+                    metacriticBox.setStroke(3,Color.rgb(255, 165, 0));
+                } else {
+                    metacriticBox.setStroke(3,Color.GREEN);
+                }
+
             }
 
             @Override
