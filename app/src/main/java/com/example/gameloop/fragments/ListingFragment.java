@@ -23,14 +23,24 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LatestFragment extends Fragment {
+public class ListingFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
+    private static final String ARG_ID = "argListingType";
+    private String listingType;
 
     int currentPage;
-    final int MAX_ITEMS= 100;
-    public LatestFragment() {
+    final int MAX_ITEMS = 100;
+    public ListingFragment() {
         // Required empty public constructor
+    }
+
+    public static ListingFragment newInstance(String listingType) {
+        ListingFragment fragment = new ListingFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_ID, listingType);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -38,23 +48,26 @@ public class LatestFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         getActivity().setTitle("Latest");
+        if (getArguments() != null) {
+            listingType = getArguments().getString(ARG_ID);
+        }
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = view.findViewById(R.id.latestRecyclerView);
+        recyclerView = view.findViewById(R.id.listingRecyclerView);
         recyclerView.setItemAnimator(null);
 
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_latest, container, false);
-        recyclerView = view.findViewById(R.id.latestRecyclerView);
+        View view = inflater.inflate(R.layout.fragment_listing, container, false);
+        recyclerView = view.findViewById(R.id.listingRecyclerView);
 
         currentPage = 1;
-        shimmerFrameLayout = view.findViewById(R.id.latestShimmerLayout);
+        shimmerFrameLayout = view.findViewById(R.id.listingShimmerLayout);
         shimmerFrameLayout.startShimmer();
 
         RecyclerAdapter adapter = new RecyclerAdapter(new ArrayList<>());
@@ -62,9 +75,7 @@ public class LatestFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
-        GameController gameController = new GameController();
-        gameController.getLatest( currentPage,new GameListCallback() {
+        GameListCallback callback = new GameListCallback() {
             @Override
             public void onSuccess(List<Game> result) {
                 adapter.setGameList(result);
@@ -77,7 +88,14 @@ public class LatestFragment extends Fragment {
             public void onFailure(Throwable t) {
                 Log.e("API_ERROR", t.getMessage());
             }
-        });
+        };
+        GameController gameController = new GameController();
+        switch (listingType) {
+            case "LATEST": {
+                gameController.getLatest(currentPage, callback);
+                break;
+            }
+        }
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

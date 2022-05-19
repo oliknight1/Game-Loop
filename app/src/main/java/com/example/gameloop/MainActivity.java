@@ -10,7 +10,7 @@ import android.os.Bundle;
 import com.example.gameloop.databinding.ActivityMainBinding;
 import com.example.gameloop.fragments.AllGenresFragment;
 import com.example.gameloop.fragments.HomeFragment;
-import com.example.gameloop.fragments.LatestFragment;
+import com.example.gameloop.fragments.ListingFragment;
 import com.example.gameloop.fragments.PopularFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment( new PopularFragment());
                     break;
                 case R.id.latest:
-                    replaceFragment( new LatestFragment());
+                    ListingFragment fragment = ListingFragment.newInstance("LATEST");
+                    AppCompatActivity activity = MainActivity.this;
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment).commit();
                     break;
                 case R.id.all_genres:
                     replaceFragment( new AllGenresFragment());
@@ -51,5 +53,8 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+//        GameFragment fragment = GameFragment.newInstance(game.getId());
+//        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+//        activity.getSupportFragmentManager().beginTransaction().addToBackStack("latest").replace(R.id.frame_layout,fragment).commit();
     }
 }

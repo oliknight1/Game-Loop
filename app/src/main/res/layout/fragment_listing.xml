@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.LatestFragment">
+    tools:context=".fragments.ListingFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,13 +14,13 @@
         >
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/latestRecyclerView"
+            android:id="@+id/listingRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/list_gap"
             />
         <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/latestShimmerLayout"
+            android:id="@+id/listingShimmerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
