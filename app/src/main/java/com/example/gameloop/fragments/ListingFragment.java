@@ -18,6 +18,7 @@ import com.example.gameloop.RecyclerAdapter;
 import com.example.gameloop.controllers.GameController;
 import com.example.gameloop.controllers.GameListCallback;
 import com.example.gameloop.models.Game;
+import com.example.gameloop.models.PageType;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ListingFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
     private static final String ARG_ID = "argListingType";
-    private String listingType;
+    private PageType pageType;
 
     int currentPage;
     final int MAX_ITEMS = 100;
@@ -35,10 +36,10 @@ public class ListingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ListingFragment newInstance(String listingType) {
+    public static ListingFragment newInstance(PageType type) {
         ListingFragment fragment = new ListingFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_ID, listingType);
+        args.putSerializable(ARG_ID, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +50,7 @@ public class ListingFragment extends Fragment {
         setHasOptionsMenu(true);
         getActivity().setTitle("Latest");
         if (getArguments() != null) {
-            listingType = getArguments().getString(ARG_ID);
+            pageType = (PageType) getArguments().getSerializable(ARG_ID);
         }
     }
 
@@ -90,8 +91,8 @@ public class ListingFragment extends Fragment {
             }
         };
         GameController gameController = new GameController();
-        switch (listingType) {
-            case "LATEST": {
+        switch (pageType) {
+            case LATEST: {
                 gameController.getLatest(currentPage, callback);
                 break;
             }

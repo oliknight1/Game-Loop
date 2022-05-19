@@ -12,6 +12,7 @@ import com.example.gameloop.fragments.AllGenresFragment;
 import com.example.gameloop.fragments.HomeFragment;
 import com.example.gameloop.fragments.ListingFragment;
 import com.example.gameloop.fragments.PopularFragment;
+import com.example.gameloop.models.PageType;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment( new PopularFragment());
                     break;
                 case R.id.latest:
-                    ListingFragment fragment = ListingFragment.newInstance("LATEST");
+                    ListingFragment fragment = ListingFragment.newInstance(PageType.LATEST);
                     AppCompatActivity activity = MainActivity.this;
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment).commit();
                     break;
