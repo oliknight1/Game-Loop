@@ -1,6 +1,8 @@
 package com.example.gameloop.controllers;
 
 
+import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
+
 import android.util.Log;
 
 import com.example.gameloop.RAWGApi;
@@ -45,6 +47,18 @@ public class GameController {
         LocalDate endDate = LocalDate.now();
         String dateRange = startDate.toString() + "," + endDate.toString();
         Call<ApiResponse> call = rawgApi.getLatestGames(dateRange, "-added", page, 8);
+        executeRequest(call,callback);
+    }
+
+    public void getPopular(int page, GameListCallback callback) {
+        LocalDate startDate = LocalDate.now().with(firstDayOfYear());
+        LocalDate endDate = LocalDate.now();
+        String dateRange = startDate.toString() + "," + endDate.toString();
+        Call<ApiResponse> call = rawgApi.getPopularGames(dateRange, "-added", page, 8);
+        executeRequest(call,callback);
+    }
+
+    public void executeRequest(Call<ApiResponse> call, GameListCallback callback) {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -60,6 +74,7 @@ public class GameController {
                 callback.onFailure(t);
             }
         });
+
     }
 
     public void getGameData(int id, SingleGameCallback callback) {

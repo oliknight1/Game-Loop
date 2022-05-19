@@ -48,7 +48,6 @@ public class ListingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        getActivity().setTitle("Latest");
         if (getArguments() != null) {
             pageType = (PageType) getArguments().getSerializable(ARG_ID);
         }
@@ -94,7 +93,12 @@ public class ListingFragment extends Fragment {
         switch (pageType) {
             case LATEST: {
                 gameController.getLatest(currentPage, callback);
+                getActivity().setTitle("Latest");
                 break;
+            }
+            case POPULAR:{
+                gameController.getPopular(currentPage, callback);
+                getActivity().setTitle("Most Popular");
             }
         }
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

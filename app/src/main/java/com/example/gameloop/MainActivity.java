@@ -33,12 +33,10 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment( new HomeFragment());
                     break;
                 case R.id.popular:
-                    replaceFragment( new PopularFragment());
+                    replaceListingFragment(ListingFragment.newInstance(PageType.POPULAR));
                     break;
                 case R.id.latest:
-                    ListingFragment fragment = ListingFragment.newInstance(PageType.LATEST);
-                    AppCompatActivity activity = MainActivity.this;
-                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment).commit();
+                    replaceListingFragment(ListingFragment.newInstance(PageType.LATEST));
                     break;
                 case R.id.all_genres:
                     replaceFragment( new AllGenresFragment());
@@ -49,13 +47,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    private void replaceListingFragment(Fragment fragment) {
+        AppCompatActivity activity = MainActivity.this;
+        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment).commit();
+
+    }
     private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
-//        GameFragment fragment = GameFragment.newInstance(game.getId());
-//        AppCompatActivity activity = (AppCompatActivity) view.getContext();
-//        activity.getSupportFragmentManager().beginTransaction().addToBackStack("latest").replace(R.id.frame_layout,fragment).commit();
     }
 }

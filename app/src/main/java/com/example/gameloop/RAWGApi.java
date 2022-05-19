@@ -24,4 +24,12 @@ public interface RAWGApi {
     Call<Game> getData(
             @Path("id") int id
     );
+    @GET("games?&key=" + BuildConfig.API_KEY)
+    Call<ApiResponse> getPopularGames(
+            @Query("dates") String dateRange,
+            @Query("ordering") String ordering,
+            @Query("page") int page,
+            @Query("page_size") int pageSize
+    );
+
 }
