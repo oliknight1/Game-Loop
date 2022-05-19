@@ -33,6 +33,7 @@ public class GameFragment extends Fragment {
     TextView description;
     TextView releaseDate;
     TextView metacritic;
+    TextView descriptionTitle;
 
     public GameFragment() {
         // Required empty public constructor
@@ -87,6 +88,9 @@ public class GameFragment extends Fragment {
             public void onSuccess(Game result) {
                 fragmentActivity.setTitle(result.getName());
 
+                descriptionTitle = view.findViewById(R.id.descriptionTitle);
+                descriptionTitle.setVisibility(View.VISIBLE);
+
                 description = view.findViewById(R.id.description);
                 description.setText(result.getDescription());
 
@@ -108,6 +112,8 @@ public class GameFragment extends Fragment {
                 } else {
                     metacriticBox.setStroke(3,Color.GREEN);
                 }
+
+                metacritic.setVisibility(View.VISIBLE);
 
             }
 
