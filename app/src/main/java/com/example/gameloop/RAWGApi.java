@@ -35,4 +35,7 @@ public interface RAWGApi {
     @GET("genres?&key=" + BuildConfig.API_KEY)
     Call<ApiResponse> getAllGenres();
 
+    @GET("games?&key=" + BuildConfig.API_KEY)
+    Call<ApiResponse> getGenreData(@Query("genres") Integer genreId);
+
 }

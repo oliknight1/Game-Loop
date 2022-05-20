@@ -33,10 +33,11 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment( new HomeFragment());
                     break;
                 case R.id.popular:
-                    replaceListingFragment(ListingFragment.newInstance(PageType.POPULAR));
+                    // Pass 0 as no genres have the id 0
+                    replaceListingFragment(ListingFragment.newInstance(PageType.POPULAR,0,"Popular"));
                     break;
                 case R.id.latest:
-                    replaceListingFragment(ListingFragment.newInstance(PageType.LATEST));
+                    replaceListingFragment(ListingFragment.newInstance(PageType.LATEST,0,"Latest"));
                     break;
                 case R.id.all_genres:
                     replaceFragment( new AllGenresFragment());

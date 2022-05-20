@@ -27,8 +27,12 @@ import java.util.List;
 public class ListingFragment extends Fragment {
     private RecyclerView recyclerView;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private static final String ARG_ID = "argListingType";
+    private static final String ARG_LISTING_TYPE = "argListingType";
+    private static final String ARG_GENRE_ID = "argGenreId";
+    private static final String ARG_PAGE_TITLE = "argPageTitle";
     private PageType pageType;
+    private int genreId;
+    private String pageTitle;
 
     int currentPage;
     final int MAX_ITEMS = 100;
@@ -36,10 +40,12 @@ public class ListingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static ListingFragment newInstance(PageType type) {
+    public static ListingFragment newInstance(PageType type, int genreId, String pageTitle) {
         ListingFragment fragment = new ListingFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_ID, type);
+        args.putSerializable(ARG_LISTING_TYPE, type);
+        args.putInt(ARG_GENRE_ID, genreId);
+        args.putString(ARG_PAGE_TITLE,pageTitle);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +55,9 @@ public class ListingFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         if (getArguments() != null) {
-            pageType = (PageType) getArguments().getSerializable(ARG_ID);
+            pageType = (PageType) getArguments().getSerializable(ARG_LISTING_TYPE);
+            genreId = getArguments().getInt(ARG_GENRE_ID);
+            pageTitle = getArguments().getString(ARG_PAGE_TITLE);
         }
     }
 
@@ -63,7 +71,7 @@ public class ListingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        getActivity().setTitle(pageTitle);
         View view = inflater.inflate(R.layout.fragment_listing, container, false);
 
         recyclerView = view.findViewById(R.id.listingRecyclerView);
@@ -99,12 +107,15 @@ public class ListingFragment extends Fragment {
         switch (pageType) {
             case LATEST: {
                 requestController.getLatest(currentPage, callback);
-                getActivity().setTitle("Latest");
                 break;
             }
             case POPULAR:{
                 requestController.getPopular(currentPage, callback);
-                getActivity().setTitle("Most Popular");
+                break;
+            }
+            case GENRE:{
+                requestController.getGenreData(genreId, callback);
+                break;
             }
         }
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

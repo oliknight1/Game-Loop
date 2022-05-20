@@ -96,7 +96,6 @@ public class RequestController {
     }
 
     public void getAllGenres(GenreListCallback callback) {
-
         Call<ApiResponse> call = rawgApi.getAllGenres();
         call.enqueue(new Callback<ApiResponse>() {
             @Override
@@ -114,5 +113,11 @@ public class RequestController {
             }
         });
 //        executeRequest(call,callback);
+    }
+    public void getGenreData(int id, RequestCallback callback){
+        Call<ApiResponse> call = rawgApi.getGenreData(id);
+        executeRequest(call,callback);
+
+
     }
 }

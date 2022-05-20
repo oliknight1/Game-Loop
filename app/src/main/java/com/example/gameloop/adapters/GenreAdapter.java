@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.gameloop.R;
 import com.example.gameloop.fragments.GameFragment;
+import com.example.gameloop.fragments.ListingFragment;
 import com.example.gameloop.models.Game;
 import com.example.gameloop.models.Genre;
+import com.example.gameloop.models.PageType;
 
 import java.util.List;
 
@@ -57,9 +59,9 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.MyViewHolder
         Glide.with(holder.itemView).load(imgSrc).into(holder.genreImage);
 
         holder.cardView.setOnClickListener(view -> {
-            GameFragment fragment = GameFragment.newInstance(genre.getId());
+            ListingFragment fragment = ListingFragment.newInstance(PageType.GENRE, genre.getId(),genre.getName());
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
-//            activity.getSupportFragmentManager().beginTransaction().addToBackStack("latest").replace(R.id.frame_layout,fragment).commit();
+            activity.getSupportFragmentManager().beginTransaction().addToBackStack(genre.getName()).replace(R.id.frame_layout,fragment).commit();
         });
     }
 
