@@ -91,28 +91,34 @@ public class GameFragment extends Fragment {
                 descriptionTitle.setVisibility(View.VISIBLE);
 
                 description = view.findViewById(R.id.description);
-                description.setText(result.getDescription());
+                if(result.getDescription() != null){
+                    description.setText(result.getDescription());
+                }
 
                 Glide.with(view).load(result.getBackgroundImage()).into(gameImg);
 
                 releaseDate = view.findViewById(R.id.release_date);
-                releaseDate.setText("Release date: " + result.getReleased());
-
-                metacritic = view.findViewById(R.id.metacritic);
-                metacritic.setText(result.getMetacritic());
-                GradientDrawable metacriticBox = (GradientDrawable) metacritic.getBackground();
-                int metacriticInt = Integer.parseInt(result.getMetacritic());
-
-                // Change border colour based on the score
-                if (metacriticInt < 50 ) {
-                    metacriticBox.setStroke(3,Color.RED);
-                } else if (metacriticInt >= 50 && metacriticInt <75) {
-                    metacriticBox.setStroke(3,Color.rgb(255, 165, 0));
-                } else {
-                    metacriticBox.setStroke(3,Color.GREEN);
+                if(result.getReleased() != null) {
+                    releaseDate.setText("Release date: " + result.getReleased());
                 }
 
-                metacritic.setVisibility(View.VISIBLE);
+                metacritic = view.findViewById(R.id.metacritic);
+                if(result.getMetacritic() != null){
+                    metacritic.setText(result.getMetacritic());
+                    GradientDrawable metacriticBox = (GradientDrawable) metacritic.getBackground();
+                    int metacriticInt = Integer.parseInt(result.getMetacritic());
+
+                    // Change border colour based on the score
+                    if (metacriticInt < 50 ) {
+                        metacriticBox.setStroke(3,Color.RED);
+                    } else if (metacriticInt >= 50 && metacriticInt <75) {
+                        metacriticBox.setStroke(3,Color.rgb(255, 165, 0));
+                    } else {
+                        metacriticBox.setStroke(3,Color.GREEN);
+                    }
+
+                    metacritic.setVisibility(View.VISIBLE);
+                }
 
             }
 
