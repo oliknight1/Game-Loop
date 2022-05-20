@@ -17,10 +17,10 @@ import com.example.gameloop.models.Game;
 
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
+public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewHolder> {
     private List<Game> gameList;
 
-    public RecyclerAdapter( List<Game> gameList) {
+    public GameAdapter(List<Game> gameList) {
         this.gameList = gameList;
     }
 

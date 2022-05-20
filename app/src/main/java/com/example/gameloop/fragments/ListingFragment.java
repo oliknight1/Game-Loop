@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gameloop.R;
-import com.example.gameloop.RecyclerAdapter;
+import com.example.gameloop.GameAdapter;
 import com.example.gameloop.controllers.GameController;
 import com.example.gameloop.controllers.GameListCallback;
 import com.example.gameloop.models.Game;
@@ -70,7 +70,7 @@ public class ListingFragment extends Fragment {
         shimmerFrameLayout = view.findViewById(R.id.listingShimmerLayout);
         shimmerFrameLayout.startShimmer();
 
-        RecyclerAdapter adapter = new RecyclerAdapter(new ArrayList<>());
+        GameAdapter adapter = new GameAdapter(new ArrayList<>());
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
