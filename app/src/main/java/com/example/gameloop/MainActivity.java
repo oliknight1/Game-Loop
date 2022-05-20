@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
             switch(item.getItemId()){
                 case R.id.home:
-                    replaceFragment( new HomeFragment());
+                    replaceFragment(new HomeFragment());
                     break;
                 case R.id.popular:
                     // Pass 0 as no genres have the id 0
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceListingFragment(ListingFragment.newInstance(PageType.LATEST,0,"Latest"));
                     break;
                 case R.id.all_genres:
-                    replaceFragment( new AllGenresFragment());
+                    replaceFragment(new AllGenresFragment());
                     break;
             }
 
