@@ -1,4 +1,4 @@
-package com.example.gameloop;
+package com.example.gameloop.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.gameloop.R;
 import com.example.gameloop.fragments.GameFragment;
 import com.example.gameloop.models.Game;
 
@@ -33,7 +34,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewHolder> 
             super(view);
             gameName = view.findViewById(R.id.gameName);
             gameImg = view.findViewById(R.id.gameImg);
-            cardView = view.findViewById(R.id.card_view);
+            cardView = view.findViewById(R.id.cardView);
         }
     }
 

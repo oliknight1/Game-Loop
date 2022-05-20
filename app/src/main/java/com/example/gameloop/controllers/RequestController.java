@@ -3,11 +3,10 @@ package com.example.gameloop.controllers;
 
 import static java.time.temporal.TemporalAdjusters.firstDayOfYear;
 
-import android.util.Log;
-
 import com.example.gameloop.RAWGApi;
 import com.example.gameloop.models.ApiResponse;
 import com.example.gameloop.models.Game;
+import com.example.gameloop.models.Genre;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,13 +22,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GameController {
+public class RequestController {
     private Gson gson;
     String baseUrl;
     Retrofit retrofit;
     RAWGApi rawgApi;
 
-    public GameController() {
+    public RequestController() {
         gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
@@ -42,7 +41,7 @@ public class GameController {
         rawgApi = retrofit.create(RAWGApi.class);
     }
 
-    public void getLatest(int page, GameListCallback callback) {
+    public void getLatest(int page, RequestCallback callback) {
         LocalDate startDate = LocalDate.now().minusMonths(3);
         LocalDate endDate = LocalDate.now();
         String dateRange = startDate.toString() + "," + endDate.toString();
@@ -50,7 +49,7 @@ public class GameController {
         executeRequest(call,callback);
     }
 
-    public void getPopular(int page, GameListCallback callback) {
+    public void getPopular(int page, RequestCallback callback) {
         LocalDate startDate = LocalDate.now().with(firstDayOfYear());
         LocalDate endDate = LocalDate.now();
         String dateRange = startDate.toString() + "," + endDate.toString();
@@ -58,7 +57,7 @@ public class GameController {
         executeRequest(call,callback);
     }
 
-    public void executeRequest(Call<ApiResponse> call, GameListCallback callback) {
+    public void executeRequest(Call<ApiResponse> call, RequestCallback callback) {
         call.enqueue(new Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
@@ -77,8 +76,8 @@ public class GameController {
 
     }
 
-    public void getGameData(int id, SingleGameCallback callback) {
-        Call<Game> call =rawgApi.getData(id);
+    public void getGameData(int id, RequestCallback callback) {
+        Call<Game> call = rawgApi.getData(id);
         call.enqueue(new Callback<Game>() {
             @Override
             public void onResponse(Call<Game> call, Response<Game> response) {
@@ -96,4 +95,24 @@ public class GameController {
 
     }
 
+    public void getAllGenres(GenreListCallback callback) {
+
+        Call<ApiResponse> call = rawgApi.getAllGenres();
+        call.enqueue(new Callback<ApiResponse>() {
+            @Override
+            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
+                if( !response.isSuccessful() ) {
+                    return;
+                }
+                Type gameListType = new TypeToken<List<Genre>>() {}.getType();
+                List<Genre> genreList = new Gson().fromJson(response.body().getResults(), gameListType );
+                callback.onSuccess(genreList);
+            }
+            @Override
+            public void onFailure(Call<ApiResponse> call, Throwable t) {
+                callback.onFailure(t);
+            }
+        });
+//        executeRequest(call,callback);
+    }
 }

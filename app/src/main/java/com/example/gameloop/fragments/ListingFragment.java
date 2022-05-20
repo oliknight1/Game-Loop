@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gameloop.R;
-import com.example.gameloop.GameAdapter;
-import com.example.gameloop.controllers.GameController;
-import com.example.gameloop.controllers.GameListCallback;
+import com.example.gameloop.adapters.GameAdapter;
+import com.example.gameloop.controllers.RequestController;
+import com.example.gameloop.controllers.RequestCallback;
 import com.example.gameloop.models.Game;
 import com.example.gameloop.models.PageType;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -63,7 +63,9 @@ public class ListingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_listing, container, false);
+
         recyclerView = view.findViewById(R.id.listingRecyclerView);
 
         currentPage = 1;
@@ -75,7 +77,7 @@ public class ListingFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        GameListCallback callback = new GameListCallback() {
+        RequestCallback callback = new RequestCallback() {
             @Override
             public void onSuccess(List<Game> result) {
                 adapter.setGameList(result);
@@ -88,16 +90,20 @@ public class ListingFragment extends Fragment {
             public void onFailure(Throwable t) {
                 Log.e("API_ERROR", t.getMessage());
             }
+
+
+            @Override
+            public void onSuccess(Game result) {}
         };
-        GameController gameController = new GameController();
+        RequestController requestController = new RequestController();
         switch (pageType) {
             case LATEST: {
-                gameController.getLatest(currentPage, callback);
+                requestController.getLatest(currentPage, callback);
                 getActivity().setTitle("Latest");
                 break;
             }
             case POPULAR:{
-                gameController.getPopular(currentPage, callback);
+                requestController.getPopular(currentPage, callback);
                 getActivity().setTitle("Most Popular");
             }
         }
@@ -112,10 +118,14 @@ public class ListingFragment extends Fragment {
             }
             private void loadMoreItems() {
                 currentPage++;
-                gameController.getLatest(currentPage,new GameListCallback() {
+                requestController.getLatest(currentPage,new RequestCallback() {
                     @Override
                     public void onSuccess(List<Game> result) {
                         adapter.addAll(result);
+                    }
+
+                    @Override
+                    public void onSuccess(Game result) {
                     }
 
                     @Override

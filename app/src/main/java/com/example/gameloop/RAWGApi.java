@@ -32,4 +32,7 @@ public interface RAWGApi {
             @Query("page_size") int pageSize
     );
 
+    @GET("genres?&key=" + BuildConfig.API_KEY)
+    Call<ApiResponse> getAllGenres();
+
 }

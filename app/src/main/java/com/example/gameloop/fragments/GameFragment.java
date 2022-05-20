@@ -1,7 +1,6 @@
 package com.example.gameloop.fragments;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
@@ -11,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +20,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.gameloop.R;
-import com.example.gameloop.controllers.GameController;
-import com.example.gameloop.controllers.SingleGameCallback;
+import com.example.gameloop.controllers.RequestCallback;
+import com.example.gameloop.controllers.RequestController;
 import com.example.gameloop.models.Game;
+
+import java.util.List;
 
 public class GameFragment extends Fragment {
     private static final String ARG_ID = "argId";
@@ -81,8 +83,11 @@ public class GameFragment extends Fragment {
 
         gameImg = view.findViewById(R.id.gameImg);
 
-        GameController controller = new GameController();
-        controller.getGameData(id, new SingleGameCallback() {
+        RequestController controller = new RequestController();
+        controller.getGameData(id, new RequestCallback() {
+            @Override
+            public void onSuccess(List<Game> result) {}
+
             @Override
             public void onSuccess(Game result) {
                 fragmentActivity.setTitle(result.getName());
@@ -124,7 +129,7 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onFailure(Throwable t) {
-
+                Log.e("API_ERROR", t.getMessage());
             }
         });
 
