@@ -59,10 +59,10 @@ public class GameFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        fragmentActivity = getActivity();
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+        fragmentActivity = getActivity();
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         fragmentActivity.getOnBackPressedDispatcher();
@@ -71,7 +71,6 @@ public class GameFragment extends Fragment {
         if (getArguments() != null) {
             id = getArguments().getInt(ARG_ID);
             title = getArguments().getString(ARG_TITLE);
-            fragmentActivity.setTitle(title);
         }
     }
 
@@ -86,6 +85,8 @@ public class GameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        fragmentActivity.setTitle(title);
 
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 

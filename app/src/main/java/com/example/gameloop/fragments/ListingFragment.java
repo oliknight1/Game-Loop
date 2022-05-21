@@ -3,12 +3,17 @@ package com.example.gameloop.fragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,11 +59,23 @@ public class ListingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        FragmentActivity fragmentActivity = getActivity();
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        fragmentActivity.getOnBackPressedDispatcher();
+
         if (getArguments() != null) {
             pageType = (PageType) getArguments().getSerializable(ARG_LISTING_TYPE);
             genreId = getArguments().getInt(ARG_GENRE_ID);
             pageTitle = getArguments().getString(ARG_PAGE_TITLE);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.popBackStack();
+        return true;
     }
 
     @Override

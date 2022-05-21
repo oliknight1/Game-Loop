@@ -11,12 +11,12 @@ import com.example.gameloop.databinding.ActivityMainBinding;
 import com.example.gameloop.fragments.AllGenresFragment;
 import com.example.gameloop.fragments.HomeFragment;
 import com.example.gameloop.fragments.ListingFragment;
-import com.example.gameloop.fragments.PopularFragment;
 import com.example.gameloop.models.PageType;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    String prevBackStackTag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,22 +25,22 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        replaceFragment( new HomeFragment());
+        replaceFragment(new HomeFragment(),"home");
         binding.nav.setOnItemSelectedListener(item -> {
 
             switch(item.getItemId()){
                 case R.id.home:
-                    replaceFragment(new HomeFragment());
+                    replaceFragment(new HomeFragment(),"home");
                     break;
                 case R.id.popular:
                     // Pass 0 as no genres have the id 0
-                    replaceListingFragment(ListingFragment.newInstance(PageType.POPULAR,0,"Popular"));
+                    replaceFragment(ListingFragment.newInstance(PageType.POPULAR,0,"Popular"),"popular");
                     break;
                 case R.id.latest:
-                    replaceListingFragment(ListingFragment.newInstance(PageType.LATEST,0,"Latest"));
+                    replaceFragment(ListingFragment.newInstance(PageType.LATEST,0,"Latest"),"latest");
                     break;
                 case R.id.all_genres:
-                    replaceFragment(new AllGenresFragment());
+                    replaceFragment(new AllGenresFragment(),"genres");
                     break;
             }
 
@@ -48,15 +48,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    private void replaceListingFragment(Fragment fragment) {
-        AppCompatActivity activity = MainActivity.this;
-        activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,fragment).commit();
+    private void replaceFragment(Fragment fragment, String backStackTag) {
 
-    }
-    private void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
+        if(prevBackStackTag != null){
+            fragmentTransaction.addToBackStack(prevBackStackTag);
+        }
         fragmentTransaction.commit();
+
+        prevBackStackTag = backStackTag;
+
     }
 }
