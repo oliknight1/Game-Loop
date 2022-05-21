@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,7 +38,7 @@ public class GameFragment extends Fragment {
     TextView releaseDate;
     TextView metacritic;
     TextView descriptionTitle;
-    FrameLayout parent;
+    ScrollView scrollView;
 
     public GameFragment() {
         // Required empty public constructor
@@ -83,8 +84,8 @@ public class GameFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_game, container, false);
 
-        parent = view.findViewById(R.id.gameParent);
-        parent.setAlpha(0f);
+        scrollView = view.findViewById(R.id.gameScrollView);
+        scrollView.setAlpha(0f);
 
         gameImg = view.findViewById(R.id.gameImg);
 
@@ -130,7 +131,7 @@ public class GameFragment extends Fragment {
                     metacritic.setVisibility(View.VISIBLE);
                 }
 
-                parent.animate().alpha(1f).setDuration(1000);
+                scrollView.animate().alpha(1f).setDuration(1000);
             }
 
             @Override
