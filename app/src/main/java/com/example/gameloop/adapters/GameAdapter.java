@@ -56,7 +56,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewHolder> 
         Glide.with(holder.itemView).load(imgSrc).into(holder.gameImg);
 
         holder.cardView.setOnClickListener(view -> {
-            GameFragment fragment = GameFragment.newInstance(game.getId());
+            GameFragment fragment = GameFragment.newInstance(game.getId(),game.getName());
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             activity.getSupportFragmentManager().beginTransaction().addToBackStack("latest").replace(R.id.frame_layout,fragment).commit();
         });

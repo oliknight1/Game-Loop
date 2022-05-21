@@ -31,9 +31,11 @@ import java.util.List;
 
 public class GameFragment extends Fragment {
     private static final String ARG_ID = "argId";
+    private static final String ARG_TITLE= "argTitle";
     FragmentActivity fragmentActivity;
 
     private int id;
+    private String title;
     ImageView gameImg;
     TextView description;
     TextView releaseDate;
@@ -46,10 +48,11 @@ public class GameFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static GameFragment newInstance(int id) {
+    public static GameFragment newInstance(int id, String title) {
         GameFragment fragment = new GameFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_ID, id);
+        args.putString(ARG_TITLE,title);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,8 +62,6 @@ public class GameFragment extends Fragment {
         fragmentActivity = getActivity();
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        // Remove title first
-        fragmentActivity.setTitle("");
 
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -69,6 +70,8 @@ public class GameFragment extends Fragment {
 
         if (getArguments() != null) {
             id = getArguments().getInt(ARG_ID);
+            title = getArguments().getString(ARG_TITLE);
+            fragmentActivity.setTitle(title);
         }
     }
 
@@ -98,8 +101,6 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onSuccess(Game result) {
-                fragmentActivity.setTitle(result.getName());
-
                 descriptionTitle = view.findViewById(R.id.descriptionTitle);
                 descriptionTitle.setVisibility(View.VISIBLE);
 
