@@ -49,6 +49,8 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        CardView cardView = holder.cardView;
+        cardView.setAlpha(0f);
         Genre genre = genreList.get(position);
         String name = genre.getName();
         holder.genreName.setText(name);
@@ -56,7 +58,8 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.MyViewHolder
         String imgSrc = genre.getBackgroundImage();
         Glide.with(holder.itemView).load(imgSrc).into(holder.genreImage);
 
-        holder.cardView.setOnClickListener(view -> {
+        cardView.animate().alpha(1f).setDuration(500);
+        cardView.setOnClickListener(view -> {
             ListingFragment fragment = ListingFragment.newInstance(PageType.GENRE, genre.getId(),genre.getName());
             AppCompatActivity activity = (AppCompatActivity) view.getContext();
             activity.getSupportFragmentManager().beginTransaction().addToBackStack(genre.getName()).replace(R.id.frame_layout,fragment).commit();
@@ -71,11 +74,5 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.MyViewHolder
     public void setGenreList(List<Genre> list) {
         this.genreList = list;
         notifyDataSetChanged();
-    }
-
-    public void addAll(List<Genre> newList) {
-        int lastIndex = genreList.size() - 1;
-        genreList.addAll(newList);
-        notifyItemRangeInserted(lastIndex, newList.size());
     }
 }

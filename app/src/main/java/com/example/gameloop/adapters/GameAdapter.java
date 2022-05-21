@@ -48,12 +48,15 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.cardView.setAlpha(0f);
         Game game = gameList.get(position);
         String name = game.getName();
         holder.gameName.setText(name);
 
         String imgSrc = game.getBackgroundImage();
         Glide.with(holder.itemView).load(imgSrc).into(holder.gameImg);
+
+        holder.cardView.animate().alpha(1f).setDuration(500);
 
         holder.cardView.setOnClickListener(view -> {
             GameFragment fragment = GameFragment.newInstance(game.getId(),game.getName());
