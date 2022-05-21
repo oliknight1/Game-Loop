@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -39,6 +40,7 @@ public class GameFragment extends Fragment {
     TextView metacritic;
     TextView descriptionTitle;
     ScrollView scrollView;
+    ProgressBar spinner;
 
     public GameFragment() {
         // Required empty public constructor
@@ -131,7 +133,10 @@ public class GameFragment extends Fragment {
                     metacritic.setVisibility(View.VISIBLE);
                 }
 
-                scrollView.animate().alpha(1f).setDuration(1000);
+                spinner = view.findViewById(R.id.progressBar);
+                long spinnerDur = 100;
+                spinner.animate().alpha(0f).setDuration(spinnerDur);
+                scrollView.animate().alpha(1f).setStartDelay(spinnerDur).setDuration(1000);
             }
 
             @Override
