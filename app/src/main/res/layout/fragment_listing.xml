@@ -37,12 +37,12 @@
                 android:useDefaultMargins="true"
                 >
 
-                <include layout="@layout/game_card_shimmer" />
-                <include layout="@layout/game_card_shimmer" />
-                <include layout="@layout/game_card_shimmer" />
-                <include layout="@layout/game_card_shimmer" />
-                <include layout="@layout/game_card_shimmer" />
-                <include layout="@layout/game_card_shimmer" />
+                <include layout="@layout/card_shimmer" />
+                <include layout="@layout/card_shimmer" />
+                <include layout="@layout/card_shimmer" />
+                <include layout="@layout/card_shimmer" />
+                <include layout="@layout/card_shimmer" />
+                <include layout="@layout/card_shimmer" />
 
             </GridLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
