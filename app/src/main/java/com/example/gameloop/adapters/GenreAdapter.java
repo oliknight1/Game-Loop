@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.gameloop.R;
-import com.example.gameloop.fragments.GameFragment;
 import com.example.gameloop.fragments.ListingFragment;
-import com.example.gameloop.models.Game;
 import com.example.gameloop.models.Genre;
 import com.example.gameloop.models.PageType;
 
@@ -35,16 +33,16 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.MyViewHolder
 
         public MyViewHolder(final View view) {
             super(view);
-            genreName = view.findViewById(R.id.genreName);
-            genreImage = view.findViewById(R.id.genreImg);
-            cardView = view.findViewById(R.id.genreCardView);
+            genreName = view.findViewById(R.id.cardName);
+            genreImage = view.findViewById(R.id.cardImg);
+            cardView = view.findViewById(R.id.cardView);
         }
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.genre_card,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card,parent,false);
         return new MyViewHolder(itemView);
     }
 

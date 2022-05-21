@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -93,7 +92,7 @@ public class GameFragment extends Fragment {
         scrollView = view.findViewById(R.id.gameScrollView);
         scrollView.setAlpha(0f);
 
-        gameImg = view.findViewById(R.id.gameImg);
+        gameImg = view.findViewById(R.id.cardImg);
 
         RequestController controller = new RequestController();
         controller.getGameData(id, new RequestCallback() {

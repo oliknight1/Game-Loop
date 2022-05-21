@@ -23,6 +23,7 @@ import com.example.gameloop.adapters.GenreAdapter;
 import com.example.gameloop.controllers.GenreListCallback;
 import com.example.gameloop.controllers.RequestController;
 import com.example.gameloop.models.Genre;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ import java.util.List;
 public class AllGenresFragment extends Fragment {
     FragmentActivity fragmentActivity;
     private RecyclerView recyclerView;
+    private ShimmerFrameLayout shimmerFrameLayout;
 
     public AllGenresFragment() {
         // Required empty public constructor
@@ -71,6 +73,9 @@ public class AllGenresFragment extends Fragment {
         GenreAdapter adapter = new GenreAdapter(new ArrayList<>());
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(view.getContext(),2);
 
+        shimmerFrameLayout = view.findViewById(R.id.listingShimmerLayout);
+        shimmerFrameLayout.startShimmer();
+
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -79,6 +84,8 @@ public class AllGenresFragment extends Fragment {
             @Override
             public void onSuccess(List<Genre> result) {
                 adapter.setGenreList(result);
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
             }
 
